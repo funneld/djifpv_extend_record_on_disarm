@@ -1,0 +1,4 @@
+type = scripted
+command = modmanager enable diy_glasses extend_record_on_disarm
+stop-command = modmanager disable diy_glasses extend_record_on_disarm
+

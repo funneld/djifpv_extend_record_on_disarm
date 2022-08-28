@@ -1,0 +1,7 @@
+Package: extend-record-on-disarm
+Version: 0.0.1
+Maintainer: funnel
+Description: Extends the time before recording stops after a disarm to 15s.
+Homepage: https://github.com/funneld/djifpv_extend_record_on_disarm
+Architecture: pigeon-glasses
+Depends: wtfos-modloader
