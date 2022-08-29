@@ -20,7 +20,7 @@ uint32_t duss_osal_msgq_receive(int param_1, uint32_t param_2, void *param_3, ui
 
 	uint32_t ret = duss_osal_msgq_receive_hook(param_1, param_2, param_3, param_4);
 
-	if(param_2 == 1000000){	//event client 1000000. using it as "unique" identifier
+	if(param_2 == 1000000){	//event client 1000000. using it as a "unique" identifier
 		queue_msg = (unsigned char *)param_3;
 
 		if(*queue_msg == filter_cmd){ // 1st byte == cmdid 221
@@ -33,15 +33,15 @@ uint32_t duss_osal_msgq_receive(int param_1, uint32_t param_2, void *param_3, ui
 
 			arm_flag = *((uint8_t *)param_3);  //1st byte == arm flag. 8 == armed, 0 == disarmed
 
-			if((prev_arm_flag - arm_flag) == 8){ //start timer when switching from armed->disarmed
-				clock_gettime(CLOCK_MONOTONIC, &start);
+			if((prev_arm_flag - arm_flag) == 8 && arm_flag != 1){ //start timer when switching from armed->disarmed
+				clock_gettime(CLOCK_MONOTONIC, &start_ext_rec);
 			}
 
-			clock_gettime(CLOCK_MONOTONIC, &now);
+			clock_gettime(CLOCK_MONOTONIC, &now_ext_rec);
 
-			if((now.tv_sec - start.tv_sec) < 15){
+			if((now_ext_rec.tv_sec - start_ext_rec.tv_sec) < 15){
 				*((uint8_t *)param_3) = 8; //inject custom arm flag.
-				printf("EXTENDING RECORD DISARM TIME... \n");
+				printf("EXTENDING RECORD/DISARM TIME... \n");
 			}
 			
 			prev_arm_flag = arm_flag;
